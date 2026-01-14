@@ -4,8 +4,14 @@
   "description": "training on handling mongodb data",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev" : "node ./index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^10.2.0"
+  },
+  "dependencies": {
+    "mongodb": "^7.0.0"
+  }
 }
