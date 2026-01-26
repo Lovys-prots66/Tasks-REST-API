@@ -25,6 +25,17 @@ class taskModel{
         }
     }
 
+    static async count(criteria){
+        try {
+
+            const count = (await this.collection()).countDocuments(criteria)
+            return count;
+
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
     static async find(criteria) {
         try {
             const found = (await this.collection()).find(criteria);
