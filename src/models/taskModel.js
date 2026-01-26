@@ -15,11 +15,11 @@ class taskModel{
             let inserted;
 
             if(Array.isArray(tasks)){
-                inserted = (await this.collection()).insertMany(tasks);
+                inserted = await (await this.collection()).insertMany(tasks);
                 return inserted;
             }
 
-            return inserted = (await this.collection()).insertOne(tasks);
+            return await (await this.collection()).insertOne(tasks);
         } catch (error) {
             throw new Error(error.message);
         }
@@ -28,7 +28,7 @@ class taskModel{
     static async count(criteria){
         try {
 
-            const count = (await this.collection()).countDocuments(criteria)
+            const count = await (await this.collection()).countDocuments(criteria);
             return count;
 
         } catch (error) {
@@ -39,7 +39,7 @@ class taskModel{
     static async find(criteria) {
         try {
             const found = (await this.collection()).find(criteria);
-            return found;
+            return found.toArray();
         } catch (error) {
             throw new Error(error.message);
         }

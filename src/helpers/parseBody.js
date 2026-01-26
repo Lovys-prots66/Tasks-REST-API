@@ -3,7 +3,7 @@ function parseBody(req){
         let body = "";
 
         req.on("data", (chunk) => {
-            body += chunk;
+            body += chunk.toString();
         })
 
         req.on("end", () => {
