@@ -45,16 +45,16 @@ class taskModel{
         }
     }
 
-    static async update(criteria) {
+    static async update(criteria, data) {
         try {
             let updated;
             
             if(Array.isArray(criteria)){
-                updated = (await this.collection()).updateMany(criteria);
-
+                updated = (await this.collection()).updateMany(criteria, {$set: data});
+                return updated;
             }
 
-            return updated = (await this.collection()).updateOne(criteria);
+            return updated = (await this.collection()).updateOne(criteria, {$set: data});
         } catch (error) {
             throw new Error(error.message);
         }
@@ -65,11 +65,11 @@ class taskModel{
             let deleted;
             
             if(Array.isArray(criteria)){
-                deleted = (await this.collection()).updateMany(criteria);
-
+                deleted = (await this.collection()).deleteMany(criteria);
+                return deleted;
             }
 
-            return deleted = (await this.collection()).updateOne(criteria);
+            return deleted = (await this.collection()).deleteOne(criteria);
         } catch (error) {
             throw new Error(error.message);
         }

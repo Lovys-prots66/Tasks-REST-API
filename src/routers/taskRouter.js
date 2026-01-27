@@ -6,14 +6,13 @@ async function taskRouter(req, res){
 
     const url = new URL(req.url, 'http://localhost:3000');
 
-    // if(url !== "http://localhost:3000/tasks"){
-    //     throw new Error("Invalid Task API Route")
-    // }
+    const params = Object.fromEntries(url.searchParams.entries());
+
+    console.log(params);
 
     switch(req.method){
         case "GET":
 
-            const params = url.searchParams;
             const result = await taskModel.find(params);
             res.end(JSON.stringify(result))
             
@@ -26,6 +25,15 @@ async function taskRouter(req, res){
             
             break
 
+        case "PUT":
+            const putData = await parseBody(req);
+            res.end(JSON.stringify(await taskModel.update(params, putData)))
+            break
+
+        case "DELETE":
+            res.end(JSON.stringify(await taskModel.delete(params)))
+            break;
+        
         default:
             throw new Error("Invalid or Unsupported Method");
     }
