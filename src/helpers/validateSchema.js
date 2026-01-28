@@ -5,10 +5,6 @@ function validateTaskSchema(task) {
     const required = Object.entries(schemas.task).filter(([key, value]) => value === "required");
     const nullable = Object.entries(schemas.task).filter(([key, value]) => value != "required");
 
-    if(!task['_id']){
-        task['_id'] = crypto.randomBytes(16).toString("hex");
-    }
-
     for(const [key] of required){
         if(!(key in task)){
             throw new Error(`Missing required field: ${key}`);
@@ -23,7 +19,7 @@ function validateTaskSchema(task) {
     }
 
     for(const key in task){
-        if(key !== '_id' && !schemas.task.hasOwnProperty(key)){
+        if(!schemas.task.hasOwnProperty(key)){
             throw new Error(`Unexpected field: ${key}`);
         }
     }

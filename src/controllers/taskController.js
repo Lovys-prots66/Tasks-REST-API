@@ -14,7 +14,9 @@ export default class taskController{
                 data.forEach(task => validateTaskSchema(task));
                 result = await taskModel.insert(data);
             }else{
-                result = await taskModel.insert(data);
+                if(validateTaskSchema(data)){
+                    result = await taskModel.insert(data);
+                }
             }
 
             if(result.insertedCount <= 0){
