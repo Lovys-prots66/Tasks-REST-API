@@ -1,8 +1,9 @@
 import { schemas } from "../config/schemas.js";
 
-function validateSchema(data) {
-    const required = Object.entries(schemas.data).filter(([key, value]) => value === "required");
-    const nullable = Object.entries(schemas.data).filter(([key, value]) => value != "required");
+function validateSchema(data, type = "") {
+    const schema = schemas[type];
+    const required = Object.entries(schema.data).filter(([key, value]) => value === "required");
+    const nullable = Object.entries(schema.data).filter(([key, value]) => value != "required");
 
     for(const [key] of required){
         if(!(key in data)){
@@ -18,7 +19,7 @@ function validateSchema(data) {
     }
 
     for(const key in data){
-        if(!schemas.data.hasOwnProperty(key)){
+        if(!schema.data.hasOwnProperty(key)){
             throw new Error(`Unexpected field: ${key}`);
         }
     }

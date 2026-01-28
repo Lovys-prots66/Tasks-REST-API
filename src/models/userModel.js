@@ -2,25 +2,25 @@ import { connectDB } from "../database/connection.js";
 import { dbConfig } from "../config/db.js";
 import model from "./model.js";
 
-class taskModel extends model{
+class userModel extends model{
 
     static collection = async () => {
 
         const connection = await connectDB();
-        return connection.collection(dbConfig.taskCollectionName);
+        return connection.collection(dbConfig.userCollectionName);
         
     }
 
-    static async insert(tasks) {
+    static async insert(users) {
         try {
             let inserted;
 
-            if(Array.isArray(tasks)){
-                inserted = await (await this.collection()).insertMany(tasks);
+            if(Array.isArray(users)){
+                inserted = await (await this.collection()).insertMany(users);
                 return inserted;
             }
 
-            return await (await this.collection()).insertOne(tasks);
+            return await (await this.collection()).insertOne(users);
         } catch (error) {
             throw new Error(error.message);
         }
@@ -37,7 +37,7 @@ class taskModel extends model{
         }
     }
 
-    static async find(filter = {}) {
+    static async find(filter) {
         try {
             const found = (await this.collection()).find(filter);
             return found.toArray();
@@ -70,4 +70,4 @@ class taskModel extends model{
     }
 }
 
-export default taskModel;
+export default userModel;

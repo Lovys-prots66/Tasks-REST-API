@@ -1,10 +1,10 @@
-import taskModel from "../models/taskModel.js"
+import userModel from "../models/userModel.js"
 import controller from "./controller.js";
 import { validateSchema } from "../helpers/validateSchema.js"
 import { parseBody } from "../helpers/parseBody.js";
 import { respond } from "../helpers/senders.js";
 
-export default class taskController extends controller{
+export default class userController extends controller{
 
     static async insert(req, res){
         try {
@@ -12,11 +12,11 @@ export default class taskController extends controller{
             let result;
 
             if(Array.isArray(data)){
-                data.forEach(task => validateSchema(task, "task"));
-                result = await taskModel.insert(data);
+                data.forEach(user => validateSchema(user, "user"));
+                result = await userModel.insert(data);
             }else{
-                if(validateSchema(data, "task")){
-                    result = await taskModel.insert(data);
+                if(validateSchema(data, "user")){
+                    result = await userModel.insert(data);
                 }
             }
 
@@ -25,7 +25,7 @@ export default class taskController extends controller{
                 return;
             }
 
-           respond(res, 201, "Task Added");
+           respond(res, 201, "User Added");
            return; 
 
         } catch (error) {
@@ -34,11 +34,11 @@ export default class taskController extends controller{
         }
     }
 
-    static async find(filter = {}, res){
+    static async find(filter, res){
         try {
-            const results = await taskModel.find(filter);
+            const results = await userModel.find(filter);
             if((Array.isArray(results) && results.length === 0) || !results){
-                respond(res, 404, "Task(s) not Found");
+                respond(res, 404, "User(s) not Found");
                 return;
             }
 
@@ -53,7 +53,7 @@ export default class taskController extends controller{
         try {
             const updateData = parseBody(req);
 
-            const result = await taskModel.update(filter, updateData);
+            const result = await userModel.update(filter, updateData);
             if(result.modifiedCount === 0){
                 respond(res, 400, "Nothing was Updated");
                 return;
@@ -67,10 +67,10 @@ export default class taskController extends controller{
 
     static async delete(filter, res){
         try {
-            const result = await taskModel.delete(filter);
+            const result = await userModel.delete(filter);
             if(result.deletedCount === 0) return respond(res, 400, "Nothing was deleted");
 
-            return respond(res, 204, "Task deleted")
+            return respond(res, 204, "User deleted")
         } catch (error) {
             return respond(res, 500, error.message)
         }
