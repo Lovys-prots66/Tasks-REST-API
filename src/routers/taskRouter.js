@@ -1,6 +1,7 @@
 import { URL } from "node:url"
 import taskModel from "../models/taskModel.js";
 import { parseBody } from "../helpers/parseBody.js";
+import taskController from "../controllers/taskController.js";
 
 async function taskRouter(req, res){
 
@@ -20,9 +21,8 @@ async function taskRouter(req, res){
 
         case "POST":
 
-            const data = await parseBody(req);
-            res.end(JSON.stringify(await taskModel.insert(data)))
-            
+            const inserted = taskController.insert(req)
+            res.end(JSON.stringify(inserted));
             break
 
         case "PUT":
