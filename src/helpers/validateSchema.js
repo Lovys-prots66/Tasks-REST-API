@@ -1,8 +1,13 @@
 import { schemas } from "../config/schemas.js";
+import crypto from "node:crypto"
 
 function validateTaskSchema(task) {
     const required = Object.entries(schemas.task).filter(([key, value]) => value === "required");
     const nullable = Object.entries(schemas.task).filter(([key, value]) => value != "required");
+
+    if(!task['_id']){
+        task['_id'] = crypto.randomBytes(16).toString("hex");
+    }
 
     for(const [key] of required){
         if(!(key in task)){
@@ -18,7 +23,7 @@ function validateTaskSchema(task) {
     }
 
     for(const key in task){
-        if(!schemas.task.hasOwnProperty(key)){
+        if(key !== '_id' && !schemas.task.hasOwnProperty(key)){
             throw new Error(`Unexpected field: ${key}`);
         }
     }

@@ -1,24 +1,33 @@
 import taskModel from "../models/taskModel.js"
 import { validateTaskSchema } from "../helpers/validateSchema.js"
 import { parseBody } from "../helpers/parseBody.js";
-
+import { respond } from "../helpers/senders.js";
 
 export default class taskController{
 
-    static async insert(req){
+    static async insert(req, res){
         try {
             const data = await parseBody(req);
-            
+            let result;
+
             if(Array.isArray(data)){
                 data.forEach(task => validateTaskSchema(task));
-                return await taskModel.insert(data);
+                result = await taskModel.insert(data);
+            }else{
+                result = await taskModel.insert(data);
             }
 
-            if(validateTaskSchema(data)){
-                return await taskModel.insert(data);
+            if(result.insertedCount <= 0){
+                respond(res, 400, "Nothing was Inserted");
+                return;
             }
+
+           respond(res, 201, "Task Added");
+           return; 
+
         } catch (error) {
-            throw new Error(error.message);
+            respond(res, 500, error.message);
+            return;
         }
     }
 
