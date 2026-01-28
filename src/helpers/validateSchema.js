@@ -1,6 +1,6 @@
 import { schemas } from "../config/schemas.js";
 
-function validateTaskSchema(task) {{
+function validateTaskSchema(task) {
     const required = Object.entries(schemas.task).filter(([key, value]) => value === "required");
     const nullable = Object.entries(schemas.task).filter(([key, value]) => value != "required");
 
@@ -24,6 +24,6 @@ function validateTaskSchema(task) {{
     }
 
     return true;
-}}
+}
 
 export { validateTaskSchema };

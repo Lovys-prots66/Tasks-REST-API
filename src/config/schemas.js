@@ -2,7 +2,7 @@ import crypto from "node:crypto"
 
 export const schemas = {
     task : {
-        _id: crypto.randomBytes(12).toString("hex"),
+        _id: (() => crypto.randomUUID())(),
         title: "required",
         description : "",
         category: "",

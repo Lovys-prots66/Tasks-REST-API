@@ -8,12 +8,21 @@ export default class taskController{
     static async insert(req){
         try {
             const data = await parseBody(req);
+            
+            if(Array.isArray(data)){
+                data.forEach(task => validateTaskSchema(task));
+                return await taskModel.insert(data);
+            }
+
             if(validateTaskSchema(data)){
-                const result = await taskModel.insert(data);
-                return result;
+                return await taskModel.insert(data);
             }
         } catch (error) {
             throw new Error(error.message);
         }
+    }
+
+    static async find(){
+
     }
 }
