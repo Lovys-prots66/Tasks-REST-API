@@ -1,12 +1,13 @@
 import { connectDB } from "../database/connection.js";
 import { dbConfig } from "../config/db.js";
+import model from "./model.js";
 
-class taskModel{
+class taskModel extends model{
 
     static collection = async () => {
 
         const connection = await connectDB();
-        return connection.collection(dbConfig.collectionName);
+        return connection.collection(dbConfig.taskCollectionName);
         
     }
 

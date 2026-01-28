@@ -5,5 +5,6 @@ loadEnvFile('.env')
 export const dbConfig = {
     dbName: env.DB_NAME.toString(),
     dbUrl: env.DB_URL.toString(),
-    collectionName: env.COLLECTION_NAME.toString()
+    taskCollectionName: env.COLLECTION_NAME_ONE.toString(),
+    userCollectionName: env.COLLECTION_NAME_TWO.toString()
 }
