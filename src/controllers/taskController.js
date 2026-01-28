@@ -31,12 +31,18 @@ export default class taskController{
         }
     }
 
-    static async find(filter){
+    static async find(filter, res){
         try {
             const results = await taskModel.find(filter);
-            return results;
+            if((Array.isArray(results) && results.length === 0) || !results){
+                respond(res, 404, "Task(s) not Found");
+                return;
+            }
+
+            respond(res, 200, results);
         } catch (error) {
-            throw new Error(error.message);
+            respond(res, 500, error.message);
+            return;
         }
     }
 

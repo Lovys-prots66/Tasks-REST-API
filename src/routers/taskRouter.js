@@ -10,18 +10,16 @@ async function taskRouter(req, res){
     switch(req.method){
         case "GET":
 
-            const result = await taskController.find(params);
+            const result = await taskController.find(params, res);
             res.end(JSON.stringify(result))
             
             break
 
         case "POST":
-
             return await taskController.insert(req, res);
 
         case "PUT":
-            res.end(JSON.stringify(await taskController.update(params, req)))
-            break
+            return await taskController.update(params, req);
 
         case "DELETE":
             res.end(JSON.stringify(await taskController.delete(params)))
