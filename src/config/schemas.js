@@ -8,5 +8,11 @@ export const schemas = {
         created_at: (new Date()).toDateString(),
         updated_at: new Date().toDateString(),
         user_id: "required"
+    },
+
+    user : {
+        username: "required",
+        email: "required",
+        password: "required"
     }
 }

@@ -1,9 +1,10 @@
 import taskModel from "../models/taskModel.js"
-import { validateTaskSchema } from "../helpers/validateSchema.js"
+import controller from "./controller.js";
+import { validateSchema } from "../helpers/validateSchema.js"
 import { parseBody } from "../helpers/parseBody.js";
 import { respond } from "../helpers/senders.js";
 
-export default class taskController{
+export default class taskController extends controller{
 
     static async insert(req, res){
         try {
@@ -11,10 +12,10 @@ export default class taskController{
             let result;
 
             if(Array.isArray(data)){
-                data.forEach(task => validateTaskSchema(task));
+                data.forEach(task => validateSchema(task));
                 result = await taskModel.insert(data);
             }else{
-                if(validateTaskSchema(data)){
+                if(validateSchema(data)){
                     result = await taskModel.insert(data);
                 }
             }
