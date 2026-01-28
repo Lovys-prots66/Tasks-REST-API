@@ -1,5 +1,6 @@
 import { URL } from "node:url"
 import taskController from "../controllers/taskController.js";
+import { respond } from "../helpers/senders.js";
 
 async function taskRouter(req, res){
 
@@ -21,7 +22,7 @@ async function taskRouter(req, res){
             return await taskController.delete(params, res)
         
         default:
-            throw new Error("Invalid or Unsupported Method");
+            return respond(res, 405, "Unsupported or Unallowed method")
     }
 }
 

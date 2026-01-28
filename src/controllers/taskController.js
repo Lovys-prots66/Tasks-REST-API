@@ -67,7 +67,7 @@ export default class taskController{
             const result = await taskModel.delete(filter);
             if(result.deletedCount === 0) return respond(res, 400, "Nothing was deleted");
 
-            return respond(res, 200, "Task deleted")
+            return respond(res, 204, "Task deleted")
         } catch (error) {
             return respond(res, 500, error.message)
         }
