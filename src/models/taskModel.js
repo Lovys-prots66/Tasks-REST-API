@@ -25,10 +25,10 @@ class taskModel{
         }
     }
 
-    static async count(criteria){
+    static async count(filter){
         try {
 
-            const count = await (await this.collection()).countDocuments(criteria);
+            const count = await (await this.collection()).countDocuments(filter);
             return count;
 
         } catch (error) {
@@ -36,40 +36,33 @@ class taskModel{
         }
     }
 
-    static async find(criteria) {
+    static async find(filter) {
         try {
-            const found = (await this.collection()).find(criteria);
+            const found = (await this.collection()).find(filter);
             return found.toArray();
         } catch (error) {
             throw new Error(error.message);
         }
     }
 
-    static async update(criteria, data) {
+    static async update(filter, data) {
         try {
             let updated;
             
-            if(Array.isArray(criteria)){
-                updated = (await this.collection()).updateMany(criteria, {$set: data});
+            if(Array.isArray(filter)){
+                updated = (await this.collection()).updateMany(filter, {$set: data});
                 return updated;
             }
 
-            return updated = (await this.collection()).updateOne(criteria, {$set: data});
+            return updated = (await this.collection()).updateOne(filter, {$set: data});
         } catch (error) {
             throw new Error(error.message);
         }
     }
 
-    static async delete(criteria) {
+    static async delete(filter) {
         try {
-            let deleted;
-            
-            if(Array.isArray(criteria)){
-                deleted = (await this.collection()).deleteMany(criteria);
-                return deleted;
-            }
-
-            return deleted = (await this.collection()).deleteOne(criteria);
+            return (await this.collection()).deleteOne(filter);
         } catch (error) {
             throw new Error(error.message);
         }

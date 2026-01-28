@@ -22,12 +22,30 @@ export default class taskController{
         }
     }
 
-    static async find(params){
+    static async find(filter){
         try {
-            const results = await taskModel.find(params);
+            const results = await taskModel.find(filter);
             return results;
         } catch (error) {
             throw new Error(error.message);
+        }
+    }
+
+    static async update(filter, req){
+        try {
+            const updateData = parseBody(req);
+
+            return await taskModel.update(filter, updateData);
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    static async delete(filter){
+        try {
+            return await taskModel.delete(filter);
+        } catch (error) {
+            throw new Error(error)
         }
     }
 }

@@ -26,12 +26,11 @@ async function taskRouter(req, res){
             break
 
         case "PUT":
-            const putData = await parseBody(req);
-            res.end(JSON.stringify(await taskModel.update(params, putData)))
+            res.end(JSON.stringify(await taskController.update(params, req)))
             break
 
         case "DELETE":
-            res.end(JSON.stringify(await taskModel.delete(params)))
+            res.end(JSON.stringify(await taskController.delete(params)))
             break;
         
         default:
