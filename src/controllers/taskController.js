@@ -22,7 +22,12 @@ export default class taskController{
         }
     }
 
-    static async find(){
-
+    static async find(params){
+        try {
+            const results = await taskModel.find(params);
+            return results;
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 }

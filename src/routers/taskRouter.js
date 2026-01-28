@@ -14,7 +14,7 @@ async function taskRouter(req, res){
     switch(req.method){
         case "GET":
 
-            const result = await taskModel.find(params);
+            const result = await taskController.find(params);
             res.end(JSON.stringify(result))
             
             break
