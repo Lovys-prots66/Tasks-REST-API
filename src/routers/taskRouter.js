@@ -9,21 +9,16 @@ async function taskRouter(req, res){
     
     switch(req.method){
         case "GET":
-
-            const result = await taskController.find(params, res);
-            res.end(JSON.stringify(result))
+            return await taskController.find(params, res);
             
-            break
-
         case "POST":
             return await taskController.insert(req, res);
 
         case "PUT":
-            return await taskController.update(params, req);
+            return await taskController.update(params, req, res);
 
         case "DELETE":
-            res.end(JSON.stringify(await taskController.delete(params)))
-            break;
+            return await taskController.delete(params, res)
         
         default:
             throw new Error("Invalid or Unsupported Method");

@@ -46,21 +46,30 @@ export default class taskController{
         }
     }
 
-    static async update(filter, req){
+    static async update(filter, req, res){
         try {
             const updateData = parseBody(req);
 
-            return await taskModel.update(filter, updateData);
+            const result = await taskModel.update(filter, updateData);
+            if(result.modifiedCount === 0){
+                respond(res, 400, "Nothing was Updated");
+                return;
+            }
+
+            return respond(res, 201, "Updated Successfuly");
         } catch (error) {
-            throw new Error(error.message);
+            return respond(res, 500, error.message)
         }
     }
 
-    static async delete(filter){
+    static async delete(filter, res){
         try {
-            return await taskModel.delete(filter);
+            const result = await taskModel.delete(filter);
+            if(result.deletedCount === 0) return respond(res, 400, "Nothing was deleted");
+
+            return respond(res, 200, "Task deleted")
         } catch (error) {
-            throw new Error(error)
+            return respond(res, 500, error.message)
         }
     }
 }
