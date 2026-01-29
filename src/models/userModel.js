@@ -7,7 +7,7 @@ class userModel extends model{
     static collection = async () => {
 
         const connection = await connectDB();
-        return connection.collection(dbConfig.userCollectionName);
+        return connection.collection(dbConfig.userCollection.name);
         
     }
 
@@ -48,14 +48,9 @@ class userModel extends model{
 
     static async update(filter, data) {
         try {
-            let updated;
             
-            if(Array.isArray(filter)){
-                updated = (await this.collection()).updateMany(filter, {$set: data});
-                return updated;
-            }
+            return (await this.collection()).updateOne(filter, {$set: data});
 
-            return updated = (await this.collection()).updateOne(filter, {$set: data});
         } catch (error) {
             throw new Error(error.message);
         }

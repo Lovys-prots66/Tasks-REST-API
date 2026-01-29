@@ -4,7 +4,7 @@ export const schemas = {
         description : "",
         category: "",
         due_date: (new Date()).toDateString(),
-        completed: 0,
+        completed: false,
         created_at: (new Date()).toDateString(),
         updated_at: new Date().toDateString(),
         user_id: "required"

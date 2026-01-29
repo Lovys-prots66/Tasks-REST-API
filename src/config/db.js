@@ -11,9 +11,37 @@ export const dbConfig = {
             validator: {
                 $jsonSchema: {
                     bsonType: 'object',
-                    required: [],
-                    propreties: {
-                        
+                    required: ["title", "user_id"],
+                    properties: {
+                        title: {
+                            type: "string",
+                            description: "a short self-description"
+                        },   
+                        description: {
+                            type: "string",
+                            description: "a longer description of the task"
+                        },
+                        completed : {
+                            type: "boolean",
+                        },
+                        category: {
+                            type: ["string"],
+                            description: "classification of the task"
+                        },
+                        due_date: {
+                            bsonType: "date",
+                            description: "deadline of the task"
+                        },
+                        createdAt: {
+                            bsonType: "date"
+                        },
+                        updatedAt: {
+                            bsonType: "date"
+                        },
+                        user_id: {
+                            bsonType: "objectId",
+                            description: "the id of the task owner"
+                        },
                     }
                 }
             }
@@ -25,9 +53,19 @@ export const dbConfig = {
             validator: {
                 $jsonSchema: {
                     bsonType: 'object',
-                    required: [],
-                    propreties: {
-                        
+                    required: ["name", "email", "password"],
+                    properties: {
+                        name: {
+                            type: "string",
+                            description: "The user name to be displayed in their profile"
+                        },
+                        email: {
+                            type: "string",
+                        },
+                        password: {
+                            type: "string",
+                            minLength: 60
+                        }
                     }
                 }
             }

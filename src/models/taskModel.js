@@ -7,7 +7,7 @@ class taskModel extends model{
     static collection = async () => {
 
         const connection = await connectDB();
-        return connection.collection(dbConfig.taskCollectionName);
+        return connection.collection(dbConfig.taskCollection.name);
         
     }
 
@@ -48,14 +48,9 @@ class taskModel extends model{
 
     static async update(filter, data) {
         try {
-            let updated;
             
-            if(Array.isArray(filter)){
-                updated = (await this.collection()).updateMany(filter, {$set: data});
-                return updated;
-            }
-
-            return updated = (await this.collection()).updateOne(filter, {$set: data});
+            return (await this.collection()).updateOne(filter, {$set: {...data, updatedAt: (new Date()).toDateString()}});
+            
         } catch (error) {
             throw new Error(error.message);
         }

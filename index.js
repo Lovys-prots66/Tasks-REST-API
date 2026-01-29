@@ -9,11 +9,11 @@ const server = http.createServer(async (req, res) => {
     const endpoint = url.toString();
     if(endpoint === 'http://localhost:3000/tasks'){
         const taskController = await import('./src/controllers/taskController.js');
-        const taskRouter = router(url, taskController);
+        const taskRouter = router(url, taskController.default);
         return await taskRouter(req, res)
     }else if(endpoint === 'http://localhost:3000/users'){
         const userController = await import('./src/controllers/userController.js');
-        const userRouter = router(url, userController);
+        const userRouter = router(url, userController.default);
         return await userRouter(req, res)
     }else{
         return respond(res, 400, "Unknown endpoint")
