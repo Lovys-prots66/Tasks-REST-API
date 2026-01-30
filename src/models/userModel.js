@@ -1,5 +1,6 @@
 import { connectDB } from "../database/connection.js";
 import { dbConfig } from "../config/db.js";
+import { hashPsw } from "../helpers/hashPassword.js";
 import model from "./model.js";
 
 class userModel extends model{
@@ -13,13 +14,12 @@ class userModel extends model{
 
     static async insert(users) {
         try {
-            let inserted;
-
             if(Array.isArray(users)){
-                inserted = await (await this.collection()).insertMany(users);
-                return inserted;
+                users.map(user => hashPsw(user.password))
+                return await (await this.collection()).insertMany(users);
             }
 
+            users["password"] = hashPsw(users["password"])
             return await (await this.collection()).insertOne(users);
         } catch (error) {
             throw new Error(error.message);

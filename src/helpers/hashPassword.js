@@ -1,6 +1,6 @@
 import crypto from "node:crypto"
 
-export default function hashPsw(psw){
+export function hashPsw(psw){
     return new Promise((resolve, reject) => {
         const salt = crypto.randomBytes(16).toString("hex");
 
