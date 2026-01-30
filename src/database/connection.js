@@ -11,11 +11,10 @@ export async function connectDB() {
     
     const readJSON = async (path) => {
         try {
-            const raw = await fs.readFile(path)
-            const data = JSON.parse(raw);
-            return data;
+            const raw = await fs.readFile(path, "utf-8")
+            return JSON.parse(raw);
         } catch (error) {
-            throw new Error("Error reading json: " + error.message);
+            throw new Error("readJSON error: " + error.message);
         }
     }
     
@@ -23,19 +22,22 @@ export async function connectDB() {
         const con = await client.connect();
         const dbo = con.db(dbConfig.dbName);
         const collections = dbo.listCollections().toArray();
+        const names = (await collections).map(col => col.name);
 
-        if(!(await collections).includes(dbConfig.userCollection.name)){
-            dbo.createCollection(dbConfig.userCollection.name, dbConfig.userCollection.schema)
+        if(!(names.includes(dbConfig.userCollection.name))){
+            await dbo.createCollection(dbConfig.userCollection.name, dbConfig.userCollection.schema)
 
             const dummyUsers = await readJSON("./src/database/dummyUsers.json")
-            await userModel.insert(JSON.parse(dummyUsers));
+            console.log(dummyUsers);
+            await userModel.insert(dummyUsers);
         }
         
-        if(!(await collections).includes(dbConfig.taskCollection.name)){
-            dbo.createCollection(dbConfig.taskCollection.name, dbConfig.taskCollection.schema);
+        if(!(names.includes(dbConfig.taskCollection.name))){
+            await dbo.createCollection(dbConfig.taskCollection.name, dbConfig.taskCollection.schema);
             
             const dummyTasks = await readJSON("./src/database/dummyTasks.json")
-            await userModel.insert(JSON.parse(dummyTasks));
+            const inserted = await taskModel.insert(dummyTasks);
+            console.log(inserted);
         }
 
 

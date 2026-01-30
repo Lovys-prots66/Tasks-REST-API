@@ -64,7 +64,7 @@ export const dbConfig = {
                         },
                         password: {
                             type: "string",
-                            minLength: 60
+                            description: "The hashed password of the user"
                         }
                     }
                 }

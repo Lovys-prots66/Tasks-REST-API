@@ -15,12 +15,17 @@ class userModel extends model{
     static async insert(users) {
         try {
             if(Array.isArray(users)){
-                users.map(user => hashPsw(user.password))
+                users = await Promise.all(
+                    users.map(async user =>({ 
+                        ...user,
+                        password: await hashPsw(user.password)
+                    }))
+                )
                 return await (await this.collection()).insertMany(users);
             }
 
-            users["password"] = hashPsw(users["password"])
-            return await (await this.collection()).insertOne(users);
+            users["password"] = await hashPsw(users["password"]);
+            return (await this.collection()).insertOne(users);
         } catch (error) {
             throw new Error(error.message);
         }
