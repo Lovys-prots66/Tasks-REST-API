@@ -9,6 +9,7 @@ const client = new MongoClient(dbConfig.dbUrl);
 
 export async function connectDB() {
     
+    // private function for returning js objects from json
     const readJSON = async (path) => {
         try {
             const raw = await fs.readFile(path, "utf-8")
@@ -24,11 +25,12 @@ export async function connectDB() {
         const collections = dbo.listCollections().toArray();
         const names = (await collections).map(col => col.name);
 
+        // create collections if they don't exist, then seed them
+
         if(!(names.includes(dbConfig.userCollection.name))){
             await dbo.createCollection(dbConfig.userCollection.name, dbConfig.userCollection.schema)
 
             const dummyUsers = await readJSON("./src/database/dummyUsers.json")
-            console.log(dummyUsers);
             await userModel.insert(dummyUsers);
         }
         
@@ -36,8 +38,7 @@ export async function connectDB() {
             await dbo.createCollection(dbConfig.taskCollection.name, dbConfig.taskCollection.schema);
             
             const dummyTasks = await readJSON("./src/database/dummyTasks.json")
-            const inserted = await taskModel.insert(dummyTasks);
-            console.log(inserted);
+            await taskModel.insert(dummyTasks);
         }
 
 

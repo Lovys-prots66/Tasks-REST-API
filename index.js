@@ -1,27 +1,36 @@
 import http from "node:http"
 import router from "./src/routers/router.js";
 import { respond } from "./src/helpers/senders.js";
+import { serverConfig } from "./src/config/server.js";
 
-const server = http.createServer(async (req, res) => {
-    // return await router();
-    const url = new URL(req.url, 'http://localhost:3000');
+
+(function server(){
+    const {host, port} = serverConfig;
     
-    const endpoint = url.toString();
-    if(endpoint === 'http://localhost:3000/tasks'){
-        const taskController = await import('./src/controllers/taskController.js');
-        const taskRouter = router(url, taskController.default);
-        return await taskRouter(req, res)
-    }else if(endpoint === 'http://localhost:3000/users'){
-        const userController = await import('./src/controllers/userController.js');
-        const userRouter = router(url, userController.default);
-        return await userRouter(req, res)
-    }else{
-        return respond(res, 400, "Unknown endpoint")
-    }
+    const baseUrl = `http://localhost:3000`;
 
-})
-
-server.listen(3000, "localhost", () => {
-    console.log('http://localhost:3000/tasks');
-    console.log('http://localhost:3000/users');
-})
+    const server = http.createServer(async (req, res) => {
+        // return await router();
+        const url = new URL(req.url, `${baseUrl}`);
+        
+        const endpoint = url.toString();
+        if(endpoint === `${baseUrl}/tasks`){
+            const taskController = await import(`./src/controllers/taskController.js`);
+            const taskRouter = router(url, taskController.default);
+            return await taskRouter(req, res)
+        }else if(endpoint === `${baseUrl}/users`){
+            const userController = await import(`./src/controllers/userController.js`);
+            const userRouter = router(url, userController.default);
+            return await userRouter(req, res)
+        }else{
+            return respond(res, 400, "Unknown endpoint")
+        }
+    
+    })
+    
+    
+    server.listen(port, host, () => {
+        console.log(`${baseUrl}/tasks`);
+        console.log(`${baseUrl}/users`);
+    })
+})()
