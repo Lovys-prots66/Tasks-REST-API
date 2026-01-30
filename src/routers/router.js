@@ -1,7 +1,10 @@
 import { respond } from "../helpers/senders.js";
+import { securityHeaders } from "../guardians/securityHeaders.js";
 
 function router(url, controller){
     return async function(req, res){
+        securityHeaders(res);
+
         const params = Object.fromEntries(url.searchParams.entries());
         
         switch(req.method){
