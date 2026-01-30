@@ -3,6 +3,7 @@ import controller from "./controller.js";
 import { validateSchema } from "../helpers/validateSchema.js"
 import { parseBody } from "../helpers/parseBody.js";
 import { respond } from "../helpers/senders.js";
+import { cleanPollution } from "../guardians/cleanPollution.js";
 
 export default class userController extends controller{
 
@@ -36,6 +37,7 @@ export default class userController extends controller{
 
     static async find(filter, res){
         try {
+            cleanPollution(filter);
             const results = await userModel.find(filter);
             if((Array.isArray(results) && results.length === 0) || !results){
                 respond(res, 404, "User(s) not Found");
@@ -51,6 +53,7 @@ export default class userController extends controller{
 
     static async update(filter, req, res){
         try {
+            cleanPollution(filter);
             const updateData = parseBody(req);
 
             const result = await userModel.update(filter, updateData);
@@ -67,6 +70,8 @@ export default class userController extends controller{
 
     static async delete(filter, res){
         try {
+            cleanPollution(filter);
+
             const result = await userModel.delete(filter);
             if(result.deletedCount === 0) return respond(res, 400, "Nothing was deleted");
 
