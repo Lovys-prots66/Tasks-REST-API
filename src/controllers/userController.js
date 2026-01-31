@@ -39,7 +39,7 @@ export default class userController extends controller{
         try {
             cleanPollution(filter);
             const secretOption = {}
-            if(!filter["showPsw"] && filter["showPsw"] != true){
+            if(!filter["showPsw"] && filter["showPsw"] !== true){
                 secretOption["password"] = 0;
             }
             delete filter["showPsw"]
