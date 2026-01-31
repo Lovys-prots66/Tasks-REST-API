@@ -1,4 +1,4 @@
-function taskSeeder(amount = 100, userIds = []){
+export function taskSeeder(amount = 100, userIds = []){
   
     const tasks = []
 
@@ -99,9 +99,10 @@ function taskSeeder(amount = 100, userIds = []){
         }        
     }
 
-    for(let i = 0; i <= 100; i++){
-    }    
+    for(let i = 0; i <= amount; i++){
+        tasks.push(seedTask());
+    }
+
+    return tasks;
 
 }
-
-taskSeeder()
