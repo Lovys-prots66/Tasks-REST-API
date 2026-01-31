@@ -1,5 +1,7 @@
 function taskSeeder(){
   
+    const tasks = []
+
     const categoriesPool = [
     "work",
     "personal",
@@ -63,7 +65,7 @@ function taskSeeder(){
     "Fix aggregation stage order causing incorrect results"
     ]    
     
-    const randomNum = (multiplier) => Math.floor(Math.random() * multiplier);
+    const randomNum = (multiplier = 1) => Math.floor(Math.random() * multiplier);
 
     function seedCats(){
         const randomLen = Math.floor(Math.random() * 4)
@@ -76,5 +78,26 @@ function taskSeeder(){
         return cats;
     }
 
+    const randomDate = (past = true) => (randNum) => {
+        const date = new Date();
+
+        (past === true) ? date.setDate(date.getDate() - randomNum(randNum)) : date.setDate(date.getDate() + randomNum(randNum));
+
+        return date.toDateString()
+    }
+
+    function seedTask(){
+        return {
+            title: `Task #${randomNum(1500)}`,
+            description: descPool[randomNum(descPool.length)],
+            completed: randomNum() < 0.5,
+            category: seedCats()
+        }        
+    }
+
+    for(let i = 0; i <= 100; i++){
+    }    
+
 }
 
+taskSeeder()
