@@ -2,7 +2,6 @@ import http from "node:http"
 import router from "./src/routers/router.js";
 import { respond } from "./src/helpers/senders.js";
 import { serverConfig } from "./src/config/server.js";
-import { securityHeaders } from "./src/guardians/securityHeaders.js";
 
 (function server(){
     const {host, port} = serverConfig;
@@ -14,7 +13,7 @@ import { securityHeaders } from "./src/guardians/securityHeaders.js";
         const url = new URL(req.url, `${baseUrl}`);
         
         const endpoint = url.toString();
-        if(endpoint === `${baseUrl}/tasks`){
+        if(endpoint.startsWith(`${baseUrl}/tasks`)){
             const taskController = await import(`./src/controllers/taskController.js`);
             const taskRouter = router(url, taskController.default);
             return await taskRouter(req, res)

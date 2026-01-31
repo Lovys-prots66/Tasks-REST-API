@@ -38,7 +38,13 @@ export default class userController extends controller{
     static async find(filter, res){
         try {
             cleanPollution(filter);
-            const results = await userModel.find(filter);
+            const secretOption = {}
+            if(!filter["showPsw"] && filter["showPsw"] != true){
+                secretOption["password"] = 0;
+            }
+            delete filter["showPsw"]
+            
+            const results = await userModel.find(filter, secretOption);
             if((Array.isArray(results) && results.length === 0) || !results){
                 respond(res, 404, "User(s) not Found");
                 return;
