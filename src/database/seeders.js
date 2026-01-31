@@ -1,4 +1,4 @@
-function taskSeeder(){
+function taskSeeder(amount = 100, userIds = []){
   
     const tasks = []
 
@@ -68,7 +68,7 @@ function taskSeeder(){
     const randomNum = (multiplier = 1) => Math.floor(Math.random() * multiplier);
 
     function seedCats(){
-        const randomLen = Math.floor(Math.random() * 4)
+        const randomLen = randomNum(4)
 
         let cats = []
         for(let i = 0; i <= randomLen; i++){
@@ -91,7 +91,11 @@ function taskSeeder(){
             title: `Task #${randomNum(1500)}`,
             description: descPool[randomNum(descPool.length)],
             completed: randomNum() < 0.5,
-            category: seedCats()
+            category: seedCats(),
+            dueDate: randomDate(false)(60),
+            createdAt: randomDate(true)(50),
+            updatedAt: randomDate(true)(30),
+            // userId: userIds[randomNum(userIds.length)]
         }        
     }
 
