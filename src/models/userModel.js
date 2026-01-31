@@ -44,8 +44,8 @@ class userModel extends model{
 
     static async find(filter, options = {}) {
         try {
-            const found = (await this.collection()).find(filter, {projection : options});
-            return found.toArray();
+            const collection = await this.collection();
+            return collection.find(filter, {projection : options});
         } catch (error) {
             throw new Error(error.message);
         }

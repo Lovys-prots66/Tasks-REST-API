@@ -44,7 +44,13 @@ export default class userController extends controller{
             }
             delete filter["showPsw"]
             
-            const results = await userModel.find(filter, secretOption);
+            const cursor = (await userModel.find(filter, secretOption));
+            const results = []
+            
+            for await(const user of cursor){
+                results.push(user);
+            }
+
             if((Array.isArray(results) && results.length === 0) || !results){
                 respond(res, 404, "User(s) not Found");
                 return;

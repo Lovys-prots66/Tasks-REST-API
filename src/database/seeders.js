@@ -1,7 +1,8 @@
-export function taskSeeder(amount = 100, userIds = []){
-  
-    const tasks = []
+import userModel from "../models/userModel.js";
 
+export async function taskSeeder(amount = 100){
+  
+    
     const categoriesPool = [
     "work",
     "personal",
@@ -11,7 +12,7 @@ export function taskSeeder(amount = 100, userIds = []){
     "learning",
     "maintenance"
     ]
-
+    
     const descPool = [
     "Implement user authentication flow and handle token expiration correctly",
     "Refactor legacy controller logic to reduce duplicated database queries",
@@ -63,28 +64,39 @@ export function taskSeeder(amount = 100, userIds = []){
     "Handle null vs undefined values consistently",
     "Add validation for array item types",
     "Fix aggregation stage order causing incorrect results"
-    ]    
+]    
+
+const randomNum = (multiplier = 1) => Math.floor(Math.random() * multiplier);
+
+function seedCats(){
+    const randomLen = randomNum(4)
     
-    const randomNum = (multiplier = 1) => Math.floor(Math.random() * multiplier);
-
-    function seedCats(){
-        const randomLen = randomNum(4)
-
-        let cats = []
-        for(let i = 0; i <= randomLen; i++){
-            cats = [...cats, categoriesPool[randomNum(categoriesPool.length)]];
-        }
-
-        return cats;
+    let cats = []
+    for(let i = 0; i <= randomLen; i++){
+        cats = [...cats, categoriesPool[randomNum(categoriesPool.length)]];
+    }
+    
+    return cats;
     }
 
     const randomDate = (past = true) => (randNum) => {
         const date = new Date();
-
+        
         (past === true) ? date.setDate(date.getDate() - randomNum(randNum)) : date.setDate(date.getDate() + randomNum(randNum));
-
+        
         return date.toDateString()
     }
+
+    let cursor = await userModel.find({}, {_id: 1});
+    cursor = cursor.skip(randomNum(50)).limit(20)
+
+    const userIds = []
+    
+    for await(const user of cursor){
+        ids.push(user._id)
+    }
+    
+    const tasks = []
 
     function seedTask(){
         return {
@@ -95,14 +107,14 @@ export function taskSeeder(amount = 100, userIds = []){
             dueDate: randomDate(false)(60),
             createdAt: randomDate(true)(50),
             updatedAt: randomDate(true)(30),
-            // userId: userIds[randomNum(userIds.length)]
-        }        
+            userId: userIds[randomNum(userIds.length)]
+        }
     }
 
     for(let i = 0; i <= amount; i++){
         tasks.push(seedTask());
     }
 
-    return tasks;
-
 }
+
+// await taskSeeder()

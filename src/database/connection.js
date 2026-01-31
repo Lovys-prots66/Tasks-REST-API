@@ -4,20 +4,13 @@ import fs from "node:fs/promises"
 import { dbConfig } from "../config/db.js";
 import userModel from "../models/userModel.js";
 import taskModel from "../models/taskModel.js";
+import { readJSON } from "../helpers/readJson.js";
 
 const client = new MongoClient(dbConfig.dbUrl);
 
 export async function connectDB() {
     
     // private function for returning js objects from json
-    const readJSON = async (path) => {
-        try {
-            const raw = await fs.readFile(path, "utf-8")
-            return JSON.parse(raw);
-        } catch (error) {
-            throw new Error("readJSON error: " + error.message);
-        }
-    }
     
     try {
         const con = await client.connect();
