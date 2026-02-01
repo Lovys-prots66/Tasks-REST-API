@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { connectDB } from "../database/connection.js";
 import { dbConfig } from "../config/db.js";
 import { hashPsw } from "../helpers/hashPassword.js";
@@ -44,6 +46,10 @@ class userModel extends model{
 
     static async find(filter, options = {}) {
         try {
+            if(filter["_id"]){
+                filter["_id"] = new ObjectId(filter["_id"]);
+            }
+            
             const collection = await this.collection();
             return collection.find(filter, {projection : options});
         } catch (error) {

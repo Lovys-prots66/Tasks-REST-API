@@ -1,6 +1,7 @@
 import { connectDB } from "../database/connection.js";
 import { dbConfig } from "../config/db.js";
 import model from "./model.js";
+import { ObjectId } from "mongodb";
 
 class taskModel extends model{
 
@@ -39,7 +40,13 @@ class taskModel extends model{
 
     static async find(filter = {}) {
         try {
-            const found = (await this.collection()).find(filter);
+            let found;
+            
+            if(filter["_id"]){
+                filter["_id"] = new ObjectId(filter["_id"]);
+            }
+
+            found = (await this.collection()).find(filter);
             return found.toArray();
         } catch (error) {
             throw error;
