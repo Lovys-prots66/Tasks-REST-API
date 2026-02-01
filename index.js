@@ -1,5 +1,4 @@
 import http from "node:http"
-import router from "./src/routers/router.js";
 import { respond } from "./src/helpers/senders.js";
 import { serverConfig } from "./src/config/server.js";
 import { rateLimiter } from "./src/guardians/rateLimitter.js";
@@ -18,13 +17,11 @@ import { rateLimiter } from "./src/guardians/rateLimitter.js";
         ratelimit(req, res, async () => {
             
             if(endpoint.startsWith(`${baseUrl}/tasks`)){
-                const taskController = await import(`./src/controllers/taskController.js`);
-                const taskRouter = router(url, taskController.default);
-                return await taskRouter(req, res)
+                const taskRouter = await import(`./src/routers/taskRouter.js`);
+                return await taskRouter.default(req, res, url)
             }else if(endpoint.startsWith(`${baseUrl}/users`)){
-                const userController = await import(`./src/controllers/userController.js`);
-                const userRouter = router(url, userController.default);
-                return await userRouter(req, res)
+                const userRouter = await import(`./src/routers/userRouter.js`);
+                return await userRouter.default(req, res, url)
             }else{
                 return respond(res, 400, "Unknown endpoint")
             }
