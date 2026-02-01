@@ -63,6 +63,21 @@ export default class userController extends controller{
         }
     }
 
+    static async findUserTasks(filter, res){
+        try {
+            cleanPollution(filter);
+            const tasks = await userModel.findUserTasks(filter);
+            if(Array.isArray(tasks) && tasks.length === 0){
+                respond(res, 404, "No Tasks Found for this User");
+                return;
+            }
+            respond(res, 200, tasks);
+        } catch (error) {
+            respond(res, 500, error.message);
+            return;
+        }
+    }
+
     static async update(filter, req, res){
         try {
             cleanPollution(filter);

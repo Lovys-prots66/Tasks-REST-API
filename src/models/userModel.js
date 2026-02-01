@@ -4,6 +4,7 @@ import { connectDB } from "../database/connection.js";
 import { dbConfig } from "../config/db.js";
 import { hashPsw } from "../helpers/hashPassword.js";
 import model from "./model.js";
+import taskModel from "./taskModel.js";
 
 class userModel extends model{
 
@@ -54,6 +55,17 @@ class userModel extends model{
             return collection.find(filter, {projection : options});
         } catch (error) {
             throw new Error(error);
+        }
+    }
+
+    static async findUserTasks(filter){
+        try {
+            if(filter["userId"]){
+                filter["userId"] = new ObjectId(filter["userId"]);
+            }
+            return taskModel.find(filter);
+        } catch (error) {
+            throw error;
         }
     }
 

@@ -24,8 +24,7 @@ import { rateLimiter } from "./src/guardians/rateLimitter.js";
                 return await userRouter.default(req, res, url)
             }else{
                 return respond(res, 400, "Unknown endpoint")
-            }
-            
+            }    
         })
         
     })
