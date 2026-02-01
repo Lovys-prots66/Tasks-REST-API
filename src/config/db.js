@@ -10,27 +10,26 @@ export const dbConfig = {
         schema: {
             validator: {
                 $jsonSchema: {
-                    bsonType: 'object',
-                    required: ["title", "user_id"],
+                    bsonType: "object",
+                    required: ["title", "userId"],
                     properties: {
                         title: {
-                            type: "string",
-                            description: "a short self-description"
-                        },   
-                        description: {
-                            type: "string",
-                            description: "a longer description of the task"
+                            bsonType: "string"
                         },
-                        completed : {
-                            type: "boolean",
+                        description: {
+                            bsonType: "string"
+                        },
+                        completed: {
+                            bsonType: "bool"
                         },
                         category: {
-                            type: ["string"],
-                            description: "classification of the task"
+                            bsonType: "array",
+                            items: {
+                                bsonType: "string"
+                            }
                         },
-                        due_date: {
-                            bsonType: "date",
-                            description: "deadline of the task"
+                        dueDate: {
+                            bsonType: "date"
                         },
                         createdAt: {
                             bsonType: "date"
@@ -38,10 +37,9 @@ export const dbConfig = {
                         updatedAt: {
                             bsonType: "date"
                         },
-                        user_id: {
-                            bsonType: "objectId",
-                            description: "the id of the task owner"
-                        },
+                        userId: {
+                            bsonType: "objectId"
+                        }
                     }
                 }
             }
@@ -56,14 +54,14 @@ export const dbConfig = {
                     required: ["name", "email", "password"],
                     properties: {
                         name: {
-                            type: "string",
+                            bsonType: "string",
                             description: "The user name to be displayed in their profile"
                         },
                         email: {
-                            type: "string",
+                            bsonType: "string",
                         },
                         password: {
-                            type: "string",
+                            bsonType: "string",
                             description: "The hashed password of the user"
                         }
                     }

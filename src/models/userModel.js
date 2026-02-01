@@ -27,7 +27,7 @@ class userModel extends model{
             users["password"] = await hashPsw(users["password"]);
             return (await this.collection()).insertOne(users);
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -38,7 +38,7 @@ class userModel extends model{
             return count;
 
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -47,7 +47,7 @@ class userModel extends model{
             const collection = await this.collection();
             return collection.find(filter, {projection : options});
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -57,7 +57,7 @@ class userModel extends model{
             return (await this.collection()).updateOne(filter, {$set: data});
 
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -65,7 +65,7 @@ class userModel extends model{
         try {
             return (await this.collection()).deleteOne(filter);
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 }

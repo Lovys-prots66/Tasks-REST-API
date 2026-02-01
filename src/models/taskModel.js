@@ -22,7 +22,7 @@ class taskModel extends model{
 
             return await (await this.collection()).insertOne(tasks);
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 
@@ -33,7 +33,7 @@ class taskModel extends model{
             return count;
 
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 
@@ -42,7 +42,7 @@ class taskModel extends model{
             const found = (await this.collection()).find(filter);
             return found.toArray();
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 
@@ -52,7 +52,7 @@ class taskModel extends model{
             return (await this.collection()).updateOne(filter, {$set: {...data, updatedAt: (new Date()).toDateString()}});
             
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 
@@ -60,7 +60,7 @@ class taskModel extends model{
         try {
             return (await this.collection()).deleteOne(filter);
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 }
